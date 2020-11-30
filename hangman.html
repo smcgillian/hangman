@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hangman!</title>
+        <link rel="stylesheet" href="styles/style.css">
+    </head>
+    <body>
+        <div id="gameTitlesection">
+            <h1>Hangman</h1>
+        </div>
+        <div id="container">
+            <div id="gallowsView">
+                <img id="gallowsImageElement" src="images/strike-0.png" alt="Strikes: 0">
+            </div>
+            <div id="wordRevealView">
+                <h3 id="revealWordLable"><br></h3>
+            </div>
+            <div id="inputView">
+                <form id ="guessForm">
+                    <label for ="guessInput">Enter a letter to guess</label>
+                    <input type="text" id="guessInput" name="name" size="5"/>
+                    <input type ="submit" id="submitGuess" value="Guess"/>
+                </form>
+            </div>
+            <div id="incorrectGuessesView">
+                <h3>Incorrect Guesses</h3>
+                <h3 id="strikeGuesses"><br></h3>
+            </div>
+            <div id="playAgainView">
+                <h3>Game Over</h3>
+                <button id ="playAgainButton">Play Again</button>
+            </div>
+        </div>
+    </body>	
+	<script src= "scripts/script.js"></script>
+</html>

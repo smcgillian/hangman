@@ -1,0 +1,48 @@
+html body {
+    height: 50em;
+    position: relative;
+}
+* { 
+    font-family: 'Times New Roman', Times, serif;
+}
+p, h3, div {
+    color: black;
+    text-align: center;
+}
+#gameTitlesection {
+    color: orangered;
+    text-align: center;
+    text-transform: lowercase;
+    letter-spacing: 3pt;
+    text-shadow: 4px 4px 2px rgb(182, 182, 182); 
+    font-size: 22pt;
+}
+
+#container{
+    background-color:white;
+    height: 100%;
+    position: relative;
+    margin: 0;
+}
+#gallowsView{
+    background-color: white;
+    position: relative;
+    margin: 0;
+}
+#incorrectGuessesView{
+    background-color: white;
+    margin: 0;
+}
+#wordRevealView{
+    background-color: white;
+    margin: 0;
+    color: black;
+    font-size: 18pt;
+    text-align: center;
+    letter-spacing: 3pt;
+    text-shadow: 2px 2px 1px rgb(182, 182, 182); 
+}
+#inputView{
+    background-color:white;
+    margin: 0;
+}   
