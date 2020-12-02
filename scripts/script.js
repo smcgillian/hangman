@@ -25,6 +25,11 @@ const STRIKE3_AT = "Strikes: 3";
 const STRIKE4_AT = "Strikes: 4";
 const STRIKE5_AT = "Strikes: 5";
 const STRIKE6_AT = "Strikes: 6";
+const PLAYBUTTON_TEXT = "Play";
+const PLAYLABEL = "Press play to begin"
+const PLAYAGAINBUTTONTEXT = "Play again";
+const PLAYAGAINLABEL = "Game Over";
+
 
 
 // Enumerate Game States
@@ -65,8 +70,9 @@ let HangMan = {
     gallowsFileName : null,
     gallowsAltText : null,
     gallowsImageElement : null,
-    playAgainButton : null,
-    playAgainView : null,
+    playGameButton : null,
+    playGameLable : null,
+    playGameControlinView : null,
     incorrectGuessesView : null,
 
     // Methods
@@ -120,15 +126,34 @@ let HangMan = {
     },
 
     onGameOver : function () {
+        // Show the word 
+        this.revealedLetters = this.targetWord;
+        this.showPlayGameView(PLAYAGAINLABEL, PLAYAGAINBUTTONTEXT);
+        this.UpdateView();
+    },
+
+    showPlayGameView(label, buttonLabel){
+        this.playGameLable.innerHTML = label;
+        this.playAgainButton.innerHTML = buttonLabel;
+
         this.guessInputDiv.style.display = "none";
-        this.playAgainView.style.display = "block";
-        incorrectGuessesView.style.display = "none";
+        this.playGameControlinView.style.display = "block";
+        this.UpdateViewincorrectGuessesView.style.display = "none";
+        //this.playGameButton.focus();    
+    },
+
+    hidePlayGameView(){
+        this.guessInputDiv.style.display = "block";
+        this.playGameControlinView.style.display = "none";
+        this.UpdateViewincorrectGuessesView.style.display = "block";
     },
 
     getStringFromArray : function(array){
         let str = "";
-        for(let i = 0; i < array.length; i++){
-            str += array[i];
+        if (array != null){
+            for(let i = 0; i < array.length; i++){
+                str += array[i];
+            }
         }
         return str;
     },
@@ -251,57 +276,51 @@ let HangMan = {
         if (this.state == gameStates.UNINTIALIZED){
             this.initialize();
         } else return;
-
-        // Get the target word to guess
-        this.getWordToGuess();
-
-        // Setup the initial game state
-        this.changeState(gameStates.STRIKE0);
+        this.showPlayGameView(PLAYLABEL, PLAYBUTTON_TEXT);
+        //this.setupGameStartingPosition();
     },
 
     initialize : function(){
-        this.strikes = 0;
-        this.strikeLetters = new Array();
-        document.getElementById("guessForm").addEventListener("submit", this.onGuessEvent);
         this.submitButton = document.getElementById("submitGuess");
         this.guessInputElement = document.getElementById("guessInput");
-        this.guessInputElement.addEventListener("change", this.onGuessInputChange);
-
         this.strikeGuessesElement = document.getElementById("strikeGuesses");      
         this.revealElement = document.getElementById("revealWordLable");
         this.gallowsImageElement = document.getElementById("gallowsImageElement");
         this.guessInputDiv = document.getElementById("inputView");
         this.guessInputDiv.style.display = "block";
         this.playAgainButton = document.getElementById("playAgainButton");
-        this.playAgainButton.addEventListener("click", this.onNewGameButtonClicked);
-
+        this.playGameLable = document.getElementById("playGameLabel");
         this.incorrectGuessesView = document.getElementById("incorrectGuessesView");
-
-        this.playAgainView = document.getElementById("playAgainView");
-
-        this.playAgainView.style.display = "none";
+        this.playGameControlinView = document.getElementById("playGameControlView");
+      
+        this.playAgainButton.addEventListener("click", this.onPlayGameButtonClicked);
+        this.guessInputElement.addEventListener("change", this.onGuessInputChange);
+        document.getElementById("guessForm").addEventListener("submit", this.onGuessEvent);
+      
         this.state = gameStates.INITIALIZED;
     },
 
-    onPlayAgain : function(){
-        // Reset the views
-        this.guessInputDiv.style.display = "block";
-        this.playAgainView.style.display = "none";
-        incorrectGuessesView.style.display = "block";
-        
+    onPlayGame : function(){
+        this.hidePlayGameView();
+        this.setupGameStartingPosition();
+        this.getWordToGuess();
+        this.UpdateView();
+        this.guessInputElement.focus(); 
+    },
+
+    setupGameStartingPosition(){
         // Reset variables
         this.strikes = 0;
-        this.strikeLetters.length = 0;
-        this.getWordToGuess.length = 0;
-        this.revealedLetters.length = 0;
 
-        // Set initial state
-        this.state = gameStates.INITIALIZED;
+        if (this.strikeLetters == null) this.strikeLetters = new Array();
+        else this.strikeLetters.length = 0;
 
-        // Get the target word to guess
-        this.getWordToGuess();
+        if (this.targetWord == null) this.strikeLetters = new Array();
+        else this.targetWord.length = 0;
 
-        // Setup the initial game state
+        if (this.revealedLetters == null) this.strikeLetters = new Array();
+        else this.revealedLetters.length = 0;
+
         this.changeState(gameStates.STRIKE0);
     },
 
@@ -320,10 +339,10 @@ let HangMan = {
         }
     },
 
-    onNewGameButtonClicked : function(){
+    onPlayGameButtonClicked : function(){
         // Get a ref to the global game object
         let thisGame = getGlobalGameObject();
-        thisGame.onPlayAgain();
+        thisGame.onPlayGame();
     }
 
 } // end object constructor 
@@ -346,3 +365,6 @@ getGlobalGameObject = function(){
 let thisGame = getGlobalGameObject();
 thisGame.run();
 ////////////////////////////////////
+
+
+
